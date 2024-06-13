@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/calculate_engine?useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
+    #username: root
+    #password: Wyh961130#
+    username: test
+    password: Wyh961130test#
+    driver-class-name: com.mysql.cj.jdbc.Driver
+

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ColumnMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.example.demo.entity.Column">
+        <id column="COL_ID" property="colId" />
+        <result column="COL_NAME" property="colName" />
+        <result column="DESCRIPTION" property="description" />
+        <result column="TYPE" property="type" />
+        <result column="STATUS" property="status" />
+        <result column="PARA_SEQ" property="paraSeq" />
+        <result column="CAL_SEQ" property="calSeq" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        COL_ID, COL_NAME, DESCRIPTION, TYPE, STATUS, PARA_SEQ, CAL_SEQ, CREATE_TIME, UPDATE_TIME
+    </sql>
+
+</mapper>
