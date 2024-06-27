@@ -2,10 +2,11 @@ package com.example.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -17,7 +18,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class Parameter implements Serializable {
+public class ParameterHist implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

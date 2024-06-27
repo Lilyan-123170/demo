@@ -12,8 +12,8 @@ public class MybatisPlusGenerator {
         // 数据源配置
         DataSourceConfig.Builder dataSourceConfigBuilder = new DataSourceConfig.Builder(
                 "jdbc:mysql://localhost:3306/calculate_engine?useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8",
-                "test",
-                "Wyh961130test#"
+                "root",
+                "123456#"
         );
 
         // 全局配置

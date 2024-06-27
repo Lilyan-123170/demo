@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ColumnHistMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ColumnHistMap" type="com.example.demo.entity.ColumnHist">
+        <id column="COL_ID" property="colId" />
+        <result column="COL_NAME" property="colName" />
+        <result column="DESCRIPTION" property="description" />
+        <result column="COL_RULE" property="colRule" />
+        <result column="TYPE" property="type" />
+        <result column="STATUS" property="status" />
+        <result column="CAL_SEQ" property="calSeq" />
+        <result column="CAL_SEQ_CONTENT" property="calSeqContent" />
+        <result column="PLAN_CODE" property="planCode" />
+        <result column="PLAN_ID" property="planId" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 参数新增 -->
+
+    <insert id="insertPlanUploadColumnHist" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="columnHistRequest.colId">
+        insert into `column_hist`
+        (COL_NAME,DESCRIPTION,COL_RULE,`TYPE`,STATUS,CAL_SEQ,CAL_SEQ_CONTENT,PLAN_CODE,PLAN_ID,CREATE_TIME,UPDATE_TIME) values
+        <foreach collection="columnHistRequest" item="item" separator=",">
+            (#{item.colName},#{item.description},#{item.colRule},#{item.type},#{item.status},#{item.calSeq},#{item.calSeqContent},
+            #{planManageRequest.planCode},#{planManageRequest.planId},current_timestamp,current_timestamp)
+        </foreach>
+    </insert>
+
+
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        COL_ID, COL_NAME, DESCRIPTION, TYPE, STATUS, PARA_SEQ, CAL_SEQ, CREATE_TIME, UPDATE_TIME
+    </sql>
+
+</mapper>

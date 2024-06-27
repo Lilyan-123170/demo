@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ParameterNumerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ParameterNumerMap" type="com.example.demo.entity.ParameterNumer">
+        <id column="PAR_NUMER_ID" property="parNumerId" />
+        <result column="PAR_ID" property="parId" />
+        <result column="PAR_NUMER" property="parNumer" />
+        <result column="SERIAL_ORDER" property="serialOrder" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+
+    <!-- 参数新增列表数值 -->
+    <insert id="insertParameterNumerList" parameterType="java.util.List" keyProperty="parNumerId">
+        insert into parameter_serial_value
+        (PAR_ID,PAR_NUMER,SERIAL_ORDER, CREATE_TIME, UPDATE_TIME) values
+        <foreach collection="parameterNumerRequest" item="item" separator=",">
+            (#{item.parId},#{item.parNumer},#{item.serialOrder},current_timestamp,current_timestamp)
+        </foreach>
+    </insert>
+
+    <!-- 参数查询 -->
+    <select id="selectParameterNumer" parameterType="java.lang.Long" resultType="com.example.demo.entity.ParameterNumer">
+        select * from `parameter_serial_value` where PAR_ID=#{parId}
+    </select>
+
+    <delete id="deleteParameterNumer" parameterType="java.lang.Long">
+            delete from `parameter_serial_value` where
+        PAR_ID= #{parId}
+    </delete>
+
+
+
+
+</mapper>

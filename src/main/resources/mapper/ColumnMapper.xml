@@ -3,17 +3,68 @@
 <mapper namespace="com.example.demo.mapper.ColumnMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.demo.entity.Column">
+    <resultMap id="ColumnMap" type="com.example.demo.entity.Column">
         <id column="COL_ID" property="colId" />
         <result column="COL_NAME" property="colName" />
         <result column="DESCRIPTION" property="description" />
+        <result column="COL_RULE" property="colRule" />
         <result column="TYPE" property="type" />
         <result column="STATUS" property="status" />
-        <result column="PARA_SEQ" property="paraSeq" />
         <result column="CAL_SEQ" property="calSeq" />
+        <result column="CAL_SEQ_CONTENT" property="calSeqContent" />
+        <result column="PLAN_CODE" property="planCode" />
+        <result column="PLAN_ID" property="planId" />
         <result column="CREATE_TIME" property="createTime" />
         <result column="UPDATE_TIME" property="updateTime" />
     </resultMap>
+
+    <!-- 参数新增 -->
+
+    <insert id="insertColumn" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="columnRequest.colId">
+        insert into `column`
+        (COL_NAME,DESCRIPTION,COL_RULE,`TYPE`,STATUS,PLAN_CODE,PLAN_ID,CREATE_TIME,UPDATE_TIME) values
+        <foreach collection="columnRequest" item="item" separator=",">
+            (#{item.colName},#{item.description},#{item.colRule},#{item.type},#{item.status},#{planManageRequest.planCode},#{planManageRequest.planId},current_timestamp,current_timestamp)
+        </foreach>
+    </insert>
+    <!-- 参数新增-子公式 -->
+    <update id="updateFormulaColumn" parameterType="java.util.List">
+        <foreach collection="columnRequest" item="item" index="index" separator=";">
+            update `column` set
+            CAL_SEQ=#{item.calSeq},CAL_SEQ_CONTENT=#{item.calSeqContent} where COL_ID= #{item.colId}
+        </foreach>
+    </update>
+    <!-- 公式修改 -->
+    <update id="updateColumn" parameterType="java.util.List">
+        <foreach collection="columnRequest" item="item" index="index" separator=";">
+            update `column` set
+            COL_NAME=#{item.colName},DESCRIPTION=#{item.description},COL_RULE=#{item.colRule},`TYPE`=#{item.type},
+            STATUS=#{item.status},CAL_SEQ=#{item.calSeq},CAL_SEQ_CONTENT=#{item.calSeqContent},UPDATE_TIME=current_timestamp where COL_ID= #{item.colId}
+        </foreach>
+    </update>
+
+
+
+    <!-- 公式删除 -->
+    <delete id="deleteColumn" parameterType="java.util.List">
+        <foreach collection="columnRequest" item="item" index="index" separator=";">
+            delete from `column` where COL_ID= #{item.colId}
+        </foreach>
+    </delete>
+    <delete id="deleteColumnImport" parameterType="java.lang.Long">
+        delete from `column` where COL_ID= #{colId}
+    </delete>
+
+
+    <!-- 参数查询 -->
+    <select id="selectColumn" parameterType="java.lang.Long" resultType="com.example.demo.request.ColumnRequest">
+        select * from `column` where PLAN_ID=#{planId}
+    </select>
+
+
+    <delete id="deleteColumnDraw" parameterType="java.lang.Long">
+        delete from `column` where PLAN_ID= #{planId}
+    </delete>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">

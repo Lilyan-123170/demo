@@ -11,10 +11,15 @@ public class ColumnBO {
 
     private String colName;
 
+    private String description;
+
+    private String colRule;
 
     private String type;
 
-    private String paraSeq;
+    private String status;
 
     private String calSeq;
+
+
 }

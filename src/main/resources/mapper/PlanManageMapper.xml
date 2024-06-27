@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.PlanManageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="PlanManageMap" type="com.example.demo.entity.PlanManage">
+        <id column="PLAN_ID" property="planId" />
+        <result column="PLAN_CODE" property="planCode" />
+        <result column="PLAN_NAME" property="planName" />
+        <result column="PLAN_DESCRIPTION" property="planDescription" />
+        <result column="CREATE_USER_NAME" property="createUserName" />
+        <result column="CREATE_USER_CODE" property="createUserCode" />
+        <result column="UPDATE_USER_NAME" property="updateUserName" />
+        <result column="UPDATE_USER_CODE" property="updateUserCode" />
+        <result column="PLAN_STATE" property="planState" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+
+    <update id="updatePlanUploadState" parameterType="java.util.Map">
+        update `plan_manage` set
+        PLAN_STATE='01',UPDATE_TIME=current_timestamp where PLAN_ID= #{planManageRequest.planId} and PLAN_CODE=#{planManageRequest.planCode}
+    </update>
+    <update id="updatePlanModiUploadState" parameterType="java.util.Map">
+        update `plan_manage` set
+        PLAN_STATE='03',UPDATE_TIME=current_timestamp where PLAN_STATE= '05' and PLAN_CODE=#{planManageRequest.planCode}
+    </update>
+
+    <update id="planEditFirstState" parameterType="java.util.Map">
+        update `plan_manage` set
+        PLAN_STATE='05',UPDATE_TIME=current_timestamp where PLAN_STATE= '01' and PLAN_CODE=#{planManageRequest.planCode}
+    </update>
+    <update id="updatePlanCode" parameterType="com.example.demo.request.PlanManageRequest">
+        update `plan_manage` set
+        PLAN_CODE=#{planManageRequest.planCode} where PLAN_ID=#{planManageRequest.planId}
+    </update>
+
+
+    <insert id="planCreate" parameterType="com.example.demo.request.PlanManageRequest" useGeneratedKeys="true" keyProperty="planManageRequest.planId">
+        insert into `plan_manage`
+        (PLAN_CODE,PLAN_NAME,PLAN_DESCRIPTION,CREATE_USER_NAME,CREATE_USER_CODE,UPDATE_USER_NAME,UPDATE_USER_CODE,PLAN_STATE,CREATE_TIME, UPDATE_TIME) values
+        <!--        <foreach collection="parameterRequest" item="item" separator=",">-->
+        (#{planManageRequest.planCode},#{planManageRequest.planName},#{planManageRequest.planDescription},#{planManageRequest.createUserName},#{planManageRequest.createUserCode},
+        #{planManageRequest.updateUserName},#{planManageRequest.updateUserCode},#{planManageRequest.planState},current_timestamp,current_timestamp)
+        <!--        </foreach>-->
+    </insert>
+    <insert id="planEditSecondInsert" parameterType="com.example.demo.request.PlanManageRequest" useGeneratedKeys="true" keyProperty="planManageRequest.planId">
+        insert into `plan_manage`
+        (PLAN_CODE,PLAN_NAME,PLAN_DESCRIPTION,CREATE_USER_NAME,CREATE_USER_CODE,UPDATE_USER_NAME,UPDATE_USER_CODE,PLAN_STATE,CREATE_TIME, UPDATE_TIME) values
+        <!--        <foreach collection="parameterRequest" item="item" separator=",">-->
+        (#{planManageRequest.planCode},#{planManageRequest.planName},#{planManageRequest.planDescription},#{planManageRequest.createUserName},#{planManageRequest.createUserCode},
+        #{planManageRequest.updateUserName},#{planManageRequest.updateUserCode},'06',current_timestamp,current_timestamp)
+        <!--        </foreach>-->
+    </insert>
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        PLAN_ID, PLAN_CODE, USER_NAME, USER_CODE, PLAN_STATE, CREATE_TIME, UPDATE_TIME
+    </sql>
+
+
+    <update id="planDeleteUpload" parameterType="com.example.demo.request.PlanManageRequest">
+        update `plan_manage` set
+        PLAN_STATE='04',UPDATE_TIME=current_timestamp where PLAN_ID= #{planManageRequest.planId}
+    </update>
+
+    <delete id="planDeleteDraft" parameterType="com.example.demo.request.PlanManageRequest">
+        delete from `plan_manage` where PLAN_ID= #{planManageRequest.planId}
+    </delete>
+
+    <update id="planDeleteEditDraft" parameterType="com.example.demo.request.PlanManageRequest">
+        update `plan_manage` set
+        PLAN_STATE='01',UPDATE_TIME=current_timestamp where PLAN_CODE= #{planManageRequest.planCode} and PLAN_STATE='05'
+    </update>
+
+    <select id="planCheck" parameterType="com.example.demo.request.PlanManageRequest" resultType="com.example.demo.request.PlanManageRequest">
+        select * from `plan_manage`
+        where 1=1
+        <if test="planManageRequest.planName !='' and planManageRequest.planName !=null">
+            and PLAN_NAME like #{planManageRequest.planName}
+        </if>
+        <if test="planManageRequest.planState =='01'">
+            and PLAN_STATE=#{planManageRequest.planState}
+        </if>
+        <if test="planManageRequest.planState =='02'">
+            and PLAN_STATE=#{planManageRequest.planState} and CREATE_USER_CODE=#{planManageRequest.createUserCode}
+        </if>
+        <if test="planManageRequest.planState =='05' or planManageRequest.planState =='06' ">
+            and PLAN_STATE=#{planManageRequest.planState}
+        </if>
+        <if test="planManageRequest.planState =='' or planManageRequest.planState == null">
+            and PLAN_STATE='01' or (PLAN_STATE='02' and CREATE_USER_CODE=#{planManageRequest.createUserCode}) or PLAN_STATE='05' or PLAN_STATE='06'
+        </if>
+
+        order by CREATE_TIME desc
+
+    </select>
+
+
+
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ParameterHistMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ParameterHistMap" type="com.example.demo.entity.ParameterHist">
+        <id column="PAR_ID" property="parId" />
+        <result column="PAR_NAME" property="parName" />
+        <result column="PAR_VAL" property="parVal" />
+        <result column="TYPE" property="type" />
+        <result column="COL_ID" property="colId" />
+        <result column="CALL_COL_ID" property="callColId" />
+        <result column="PLAN_CODE" property="planCode" />
+        <result column="PLAN_ID" property="planId" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+    <!-- 参数新增 -->
+<!--    <insert id="insertPlanUploadParaHist" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="parameterHistRequest.parId">-->
+<!--        insert into `parameter_hist`-->
+<!--        (PAR_NAME,`TYPE`,PLAN_CODE,PLAN_ID,CREATE_TIME,UPDATE_TIME) values-->
+<!--        <foreach collection="parameterHistRequest" item="item" separator=",">-->
+<!--            (#{item.parName},#{item.type},-->
+<!--             #{planManageRequest.planCode},#{planManageRequest.planId},current_timestamp,current_timestamp)-->
+<!--        </foreach>-->
+<!--    </insert>-->
+    <insert id="insertPlanUploadParaHistSole" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="parameterHistRequest.parId">
+        insert into `parameter_hist`
+        (PAR_NAME,PAR_VAL,`TYPE`,PLAN_CODE,PLAN_ID,CREATE_TIME,UPDATE_TIME) values
+        <!--        <foreach collection="parameterRequest" item="item" separator=",">-->
+        (#{parameterHistRequest.parName},#{parameterHistRequest.parVal},#{parameterHistRequest.type},
+        #{planManageRequest.planCode},#{planManageRequest.planId},current_timestamp,current_timestamp)
+        <!--        </foreach>-->
+    </insert>
+    <insert id="insertPlanUploadParaHistDouble" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="parameterHistRequest.parId">
+        insert into `parameter_hist`
+        (PAR_NAME,`TYPE`,PLAN_CODE,PLAN_ID,CREATE_TIME,UPDATE_TIME) values
+        <!--        <foreach collection="parameterRequest" item="item" separator=",">-->
+        (#{parameterHistRequest.parName},#{parameterHistRequest.type},
+        #{planManageRequest.planCode},#{planManageRequest.planId},current_timestamp,current_timestamp)
+        <!--        </foreach>-->
+    </insert>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        PARA_ID, PARA_NAME, TYPE, COL_ID, CALL_COL_ID, CREATE_TIME, UPDATE_TIME
+    </sql>
+
+</mapper>

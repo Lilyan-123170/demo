@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.ParameterNumerHistMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="ParameterNumerHistMap" type="com.example.demo.entity.ParameterHistNumer">
+        <id column="PAR_NUMER_ID" property="parNumerId" />
+        <result column="PAR_ID" property="parId" />
+        <result column="PAR_NUMER" property="parNumer" />
+        <result column="SERIAL_ORDER" property="serialOrder" />
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="UPDATE_TIME" property="updateTime" />
+    </resultMap>
+
+
+    <!-- 参数新增列表数值 -->
+    <insert id="insertParameterNumerHistList" parameterType="java.util.List" keyProperty="parNumerId">
+        insert into parameter_serial_value_hist
+        (PAR_ID,PAR_NUMER,SERIAL_ORDER, CREATE_TIME, UPDATE_TIME) values
+        <foreach collection="parameterNumerHistRequest" item="item" separator=",">
+            (#{item.parId},#{item.parNumer},#{item.serialOrder},current_timestamp,current_timestamp)
+        </foreach>
+    </insert>
+
+
+
+
+
+</mapper>

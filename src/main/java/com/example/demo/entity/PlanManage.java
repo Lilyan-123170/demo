@@ -2,13 +2,12 @@ package com.example.demo.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -21,34 +20,29 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class Column implements Serializable {
+public class PlanManage implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * 公式id，主键自增
      */
-    @TableId(value = "COL_ID", type = IdType.AUTO)
-    private Long colId;
-
-    private String colName;
-
-    private String description;
-
-    private String colRule;
-
-    private String type;
-
-    private String status;
-
-
-
-    private String calSeq;
-
-    private String calSeqContent;
+    @TableId(value = "PLAN_ID", type = IdType.AUTO)
+    private Long planId;
 
     private String planCode;
-    private Long planId;
+
+    private String planName;
+
+
+    private String planDescription;
+
+    private String planState;
+
+    private String createUserCode;
+    private String createUserName;
+    private String updateUserCode;
+    private String updateUserName;
 
     private LocalDateTime createTime;
 

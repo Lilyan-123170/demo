@@ -1,11 +1,13 @@
-package com.example.demo.entity;
+package com.example.demo.request;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -15,13 +17,10 @@ import lombok.Setter;
  * @author Liyimei
  * @since 2024-05-26
  */
-@Getter
-@Setter
-public class Parameter implements Serializable {
+@Data
+public class ParameterRequest implements Serializable {
 
-    private static final long serialVersionUID = 1L;
 
-    @TableId(value = "PAR_ID", type = IdType.AUTO)
     private Long parId;
 
     private String parName;

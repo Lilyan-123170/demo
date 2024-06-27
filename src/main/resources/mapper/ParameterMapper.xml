@@ -3,15 +3,79 @@
 <mapper namespace="com.example.demo.mapper.ParameterMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.example.demo.entity.Parameter">
-        <id column="PARA_ID" property="paraId" />
-        <result column="PARA_NAME" property="paraName" />
+    <resultMap id="ParameterMap" type="com.example.demo.entity.Parameter">
+        <id column="PAR_ID" property="parId" />
+        <result column="PAR_NAME" property="parName" />
+        <result column="PAR_VAL" property="parVal" />
         <result column="TYPE" property="type" />
         <result column="COL_ID" property="colId" />
         <result column="CALL_COL_ID" property="callColId" />
+        <result column="PLAN_CODE" property="planCode" />
+        <result column="PLAN_ID" property="planId" />
         <result column="CREATE_TIME" property="createTime" />
         <result column="UPDATE_TIME" property="updateTime" />
     </resultMap>
+
+    <!-- 参数新增 -->
+    <insert id="insertParameter" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="parameterRequest.parId">
+        insert into `parameter`
+        (PAR_NAME, PAR_VAL,`TYPE`,PLAN_CODE,PLAN_ID,CREATE_TIME, UPDATE_TIME) values
+<!--        <foreach collection="parameterRequest" item="item" separator=",">-->
+            (#{parameterRequest.parName},#{parameterRequest.parVal},#{parameterRequest.type},#{planManageRequest.planCode},#{planManageRequest.planId},current_timestamp,current_timestamp)
+<!--        </foreach>-->
+    </insert>
+
+    <!-- 参数新增列表数值 -->
+    <insert id="insertParameterList" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="parameterRequest.parId">
+        insert into `parameter`
+        (PAR_NAME,`TYPE`,PLAN_CODE,PLAN_ID,CREATE_TIME, UPDATE_TIME) values
+<!--        <foreach collection="parameterRequest" item="item" separator=",">-->
+            (#{parameterRequest.parName},#{parameterRequest.type},#{planManageRequest.planCode},#{planManageRequest.planId},current_timestamp,current_timestamp)
+<!--        </foreach>-->
+    </insert>
+    <!-- 参数修改 -->
+    <update id="updateParameter" parameterType="java.util.Map">
+<!--        <foreach collection="parameterRequest" item="item" index="index" separator=";">-->
+            update `parameter` set
+            PAR_NAME=#{parameterRequest.parName},PAR_VAL=#{parameterRequest.parVal},`TYPE`=#{parameterRequest.type},UPDATE_TIME=current_timestamp where PAR_ID= #{parameterRequest.parId}
+<!--        </foreach>-->
+    </update>
+    <!-- 参数修改 -->
+    <update id="updateParameterSerial" parameterType="java.util.Map">
+        <!--        <foreach collection="parameterRequest" item="item" index="index" separator=";">-->
+        update `parameter` set
+        PAR_NAME=#{parameterRequest.parName},PAR_VAL=NULL,`TYPE`=#{parameterRequest.type},UPDATE_TIME=current_timestamp where PAR_ID= #{parameterRequest.parId}
+        <!--        </foreach>-->
+    </update>
+    <!--    &lt;!&ndash; 参数修改 &ndash;&gt;-->
+<!--    <update id="updateParameter" parameterType="java.util.List">-->
+<!--        <foreach collection="parameterRequest" item="item" index="index" separator=";">-->
+<!--            update `parameter` set-->
+<!--            PAR_NAME=#{item.parName},PAR_VAL=#{item.parVal},`TYPE`=#{item.type},UPDATE_TIME=current_timestamp where PAR_ID= #{item.parId}-->
+<!--        </foreach>-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash; 参数删除 &ndash;&gt;-->
+<!--    <delete id="deleteParameter" parameterType="java.util.List">-->
+<!--        <foreach collection="parameterRequest" item="item" index="index" separator=";">-->
+<!--            delete from `parameter` where PAR_ID= #{item.parId}-->
+<!--        </foreach>-->
+<!--    </delete>-->
+    <!-- 参数删除 -->
+    <delete id="deleteParameter" parameterType="java.lang.Long">
+            delete from `parameter` where PAR_ID= #{parId}
+    </delete>
+
+    <!-- 参数查询 -->
+    <select id="selectParameter" parameterType="java.lang.Long" resultType="com.example.demo.entity.Parameter">
+        select * from `parameter` where PLAN_ID=#{planId}
+    </select>
+
+    <!-- 参数删除 -->
+    <delete id="deleteParameterDraw" parameterType="java.lang.Long">
+        delete from `parameter` where PLAN_ID= #{planId}
+    </delete>
+
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">

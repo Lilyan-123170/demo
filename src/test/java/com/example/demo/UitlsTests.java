@@ -17,16 +17,17 @@ public class UitlsTests {
 
     @Test
     public void test() {
-        String s = "p1024*p1*c09";
+        String s = "p1001*c1002*p1003";
         ColumnServiceImpl columnService = new ColumnServiceImpl();
         System.out.println(columnService.extractVariables(s));
     }
 
     @Test
     public void convertTest() {
-        EntityToBoConverter entityToBoConverter = new EntityToBoConverter();
         Column column = columnServiceImpl.getColumn(100001L);
         ColumnBO columnBO = EntityToBoConverter.convert(column, ColumnBO.class);
+        System.out.println(column);
+        System.out.println(columnBO);
         System.out.println(columnBO.toString());
     }
 }
